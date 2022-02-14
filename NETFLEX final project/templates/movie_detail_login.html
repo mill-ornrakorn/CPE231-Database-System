@@ -1,0 +1,90 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Netflex | Movie Detail</title>
+	<link rel ="icon" href ="{% static 'images/nicon.png' %}"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="main-layout">
+	<header>
+		<!-- header inner -->
+		<nav class="navbar navbar-expand-lg" style="background-color: #070100;">
+			<a class="navbar-brand" href="/logged/{{customer_id}}">
+				<img src="{% static 'images/logo.png' %}" alt="logo">
+			</a>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+					<a class="nav-link" style="color: #858383;"
+						href="/logged/{{customer_id}}">HOME<span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+					<a class="nav-link" style="color: #858383;"
+						href="/store_login/{{customer_id}}">MOVIES</a>
+					</li>
+					<li class="nav-item">
+					<a class="nav-link" style="color: #858383"
+						href="/library/{{customer_id}}">LIBRARY</a>
+					</li>
+				</ul>					
+				<div class="form-inline my-2 my-lg-0">
+                    <a href="{% url 'home' %}" class="btn btn-danger">Logout</a>
+                 
+                    <a href="/cart/{{customer_id}}">
+                        <img  id="cart-icon" src="{% static 'images/cart.png' %}">
+                    </a>
+                </div>					
+			</div>
+		</nav>
+	</header>
+	<!-- end header --> 
+
+	<div class="container">
+		<br>
+		<div class="container" style="margin: 30px 0px 130px 130px; ">
+			<div class="row">
+				<div class="col-lg-4" >
+					<img src='/static/images/{{movies.image}}' width="500"> 
+				</div>
+				<div style="padding:20px 50px 50px 50px" class="col-lg-7">
+					<h1>{{movies.movie_name}}</h1>
+					<hr>
+					<div style="display: flex;">
+						<div>
+							<h4>Genre: </h4>
+						</div>
+						<div style="margin-left:15px;">
+							<p>{{movies.genre_name}}</p>
+						</div>
+					</div>
+					<h4 style="margin-top:10px;">Title: </h4>
+					<p>{{movies.title}}</p>
+					<div style="display: flex; margin-top:15px">
+						<div>
+							<h4 style="font-size: 15px;">Producer:</h4>
+						</div>
+						<div style="margin-left:15px;">
+							<p>{{movies.producer_name}}</p>
+						</div>
+					</div>
+					<br>
+					<label style="font-size:25px; color:hsl(0, 0%, 30%);">Price: ${{movies.price}}</label>						
+					<a class="btn btn-outline-success" href="/cart/{{customer_id}}/{{movies.movie_id}}" style="margin-left:220px;">Add to Cart</a>		
+				</div>
+			</div>
+		</div>
+	</div> 
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+</body>
+</html>
+{% endblock content %}

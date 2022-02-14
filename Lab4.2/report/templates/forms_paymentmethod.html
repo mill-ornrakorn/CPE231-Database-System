@@ -1,0 +1,96 @@
+{% extends 'index.html' %}
+
+
+{% block content %}
+    
+    <button id='btnPaymentMethodList'>Payment Method List</button>
+
+    <form id='form_paymentmethod' action='/payment_method/save' method=POST>
+        {% csrf_token %}
+        <table id='PaymentMethodList' class="container">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for list in paymentmethods %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ list.code }}</td>
+                        <td>{{ list.name }}</td>
+                        <td></td>
+                    <tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td id='btnAddPaymentMethod'>+</td>
+                    <td><input type='text' id='code' name='code' /></td>
+                    <td><input type='text' id='name' name='name' /></td>
+                    <td><input type='submit' value='Add'></td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>    
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready( function () {
+        $('#btnPaymentMethodList').click(function() {
+            console.log('btnPaymentMethodList');
+            $.ajax({
+                url:  '/payment_method/list',
+                type:  'get',
+                dataType:  'json',
+                success: function  (data) {
+                    let rows =  '';
+                    var i = 1;
+                    data.paymentmethods.forEach(payment_method => {
+                        rows += `
+                        <tr>
+                            <td class='col-1'>${i++}</td>
+                            <td class='col-2'>${payment_method.code}</td>
+                            <td class='col-3'>${payment_method.name}</td>
+                            <td class='hide'></td>
+                        </tr>`;
+                    });
+                    $('#PaymentMethodList > tbody').html(rows);
+                },
+            });        
+        });
+
+        $('#btnAddPaymentMethod').click(function() {
+            console.log('btnAddPaymentMethod');
+            var token = $('[name=csrfmiddlewaretoken]').val();
+            $.ajax({
+                url:  '/payment_method/save2',
+                type:  'post',
+                data: $('#form_paymentmethod').serialize(),
+                headers: { "X-CSRFToken": token },
+                dataType:  'json',
+                success: function  (data) {
+                    let rows =  '';
+                    var i = 1;
+                    data.paymentmethods.forEach(payment_method => {
+                        rows += `
+                        <tr>
+                            <td class='col-1'>${i++}</td>
+                            <td class='col-2'>${payment_method.code}</td>
+                            <td class='col-3'>${payment_method.name}</td>
+                            <td class='hide'></td>
+                        </tr>`;
+                    });
+                    $('#PaymentMethodList > tbody').html(rows);
+                },
+            });   
+        });
+    });
+</script>
+{% endblock %}
+</body>
+</html>

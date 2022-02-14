@@ -1,0 +1,96 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<script>
+	function a(){
+	alert("Log in Required!");
+	}
+</script>
+
+<head>
+	<title>Netflex | Movie</title>
+	<link rel ="icon" href ="{% static 'images/nicon.png' %}"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="main-layout">
+	<header>
+		<!-- header inner -->
+		<nav class="navbar navbar-expand-lg" style="background-color: #070100;">
+			<a class="navbar-brand" href="{% url 'home' %}">
+				<img src="{% static 'images/logo.png' %}" alt="logo">
+			</a>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+					<a class="nav-link" style="color: #858383;"
+						href="{% url 'home' %}">HOME<span class="sr-only">(current)</span></a>
+					</li>
+
+					<li class="nav-item">
+					<a class="nav-link" style="color: #858383;"
+						href="/store/">MOVIES</a>
+					</li>				
+				</ul>
+				<div class="form-inline my-2 my-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" style="color: #858383;"
+							href="/sign_up/">SIGN UP</a>
+					</li>
+					<a href="/login/" class="btn btn-danger">LOGIN</a>		
+				</div>
+			</div>
+		</nav>
+	</header>
+	<!-- end header --> 	
+<div class="container">
+	<br>
+	<nav class="nav justify-content-end" style= "margin-top: -15px;">
+		<form action="/search" method="get" class="form-inline">
+			<input type="text" name="keyword" placeholder="Enter Movie Name" style= "margin-right: 10px"
+				value="{{ request.GET.keyword }}" class="form-control">
+	
+			<select name="movie_genre" class="form-control" style= "margin-right: 10px">
+				<option value="00">All</option>
+				<option value="05">Fantasy</option>
+				<option value="01">Drama</option>
+				<option value="04">Romantic</option>
+				<option value="03">Action</option>
+				<option value="02">Horror</option>
+	
+			</select>
+			<input type="submit" value="Search" class="btn btn-outline-danger" style= "margin-top: 10px">
+		</form>
+	</nav>
+	
+	<div class="row">
+		{% for movie in movies %}
+		<div class="col-lg-3">
+			<img class="thumbnail" src='/static/images/{{movie.image}}'style= "margin-top: 20px">
+			<div class="box-element product">
+				<div class="topboxbox">
+					<h4 style="display: inline-block; float:right "><strong>${{movie.price}}</strong></h4>
+					<h6><strong>{{movie.movie_name}}</strong></h6>
+				</div>
+				<div class="botboxbox">			
+					<hr>
+					<a class="btn btn-outline-success" onclick="a()" href="" style="margin-left:3px;">Add to Cart</a>		
+					<a href="/movie_detail/{{movie.movie_id}}"><button class="btn btn-outline-secondary add-btn update-cart">View</button></a>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div> 	
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+</body>
+</html>
+{% endblock content %}
