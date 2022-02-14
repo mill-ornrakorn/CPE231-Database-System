@@ -1,0 +1,7 @@
+from report.models import *
+
+def index(request):
+    data = Data.objects.get(key='default')
+    data_report = dict()
+    data_report['default'] = data.value
+    return render(request, 'report_data.html', data_report)

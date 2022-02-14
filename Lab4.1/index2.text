@@ -1,0 +1,10 @@
+from django.http import JsonResponse
+
+def index(request):
+    data = Data.objects.get(key='default')
+    data_report = dict()
+    data_report['default'] = data.value
+    data_report['data'] = list(Data.objects.all().values())
+    data_report['invoice'] = list(Invoice.objects.filter(invoice_no='INT100/20').values())
+    data_report['invoice_line_item'] = list(InvoiceLineItem.objects.filter(invoice_no='INT100/20').values())
+    return JsonResponse(data_report)
